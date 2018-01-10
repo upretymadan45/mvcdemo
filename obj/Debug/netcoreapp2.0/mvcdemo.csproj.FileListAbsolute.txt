@@ -1,0 +1,12 @@
+/Users/madanuprety/Documents/dotnet/mvcdemo/bin/Debug/netcoreapp2.0/app.db
+/Users/madanuprety/Documents/dotnet/mvcdemo/bin/Debug/netcoreapp2.0/mvcdemo.deps.json
+/Users/madanuprety/Documents/dotnet/mvcdemo/bin/Debug/netcoreapp2.0/mvcdemo.runtimeconfig.json
+/Users/madanuprety/Documents/dotnet/mvcdemo/bin/Debug/netcoreapp2.0/mvcdemo.runtimeconfig.dev.json
+/Users/madanuprety/Documents/dotnet/mvcdemo/bin/Debug/netcoreapp2.0/mvcdemo.dll
+/Users/madanuprety/Documents/dotnet/mvcdemo/bin/Debug/netcoreapp2.0/mvcdemo.pdb
+/Users/madanuprety/Documents/dotnet/mvcdemo/obj/Debug/netcoreapp2.0/mvcdemo.csproj.CoreCompileInputs.cache
+/Users/madanuprety/Documents/dotnet/mvcdemo/obj/Debug/netcoreapp2.0/UserSecretsAssemblyInfo.cs
+/Users/madanuprety/Documents/dotnet/mvcdemo/obj/Debug/netcoreapp2.0/mvcdemo.AssemblyInfoInputs.cache
+/Users/madanuprety/Documents/dotnet/mvcdemo/obj/Debug/netcoreapp2.0/mvcdemo.AssemblyInfo.cs
+/Users/madanuprety/Documents/dotnet/mvcdemo/obj/Debug/netcoreapp2.0/mvcdemo.dll
+/Users/madanuprety/Documents/dotnet/mvcdemo/obj/Debug/netcoreapp2.0/mvcdemo.pdb
