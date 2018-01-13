@@ -13,6 +13,7 @@ namespace mvcdemo.Controllers
         public IActionResult Index()
         {
             ViewBag.Message = "This is a another new messsge after starting server in watch mode";
+            ViewBag.MessageOne="MessageOne";
             return View();
         }
 
