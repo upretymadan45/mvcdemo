@@ -1,0 +1,99 @@
+@model List<Pet>
+
+<h2>All pets from database</h2>
+<div class="row form-group">
+    <a class="btn btn-info" asp-action="New">Add new pet</a>
+</div>
+
+<form asp-action="Index" method="POST">
+    <div class="row input-group">
+        <input type = "text" name = "search" id="search" class="form-control"/>
+        <div class="input-group-btn">
+            <input type = "submit" class="btn btn-primary" value="Search"/>
+        </div>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>Name</td>
+            <td>Age</td>
+            <td>Color</td>
+            <td colspan="2">Actions</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var pet in Model){
+            <tr>
+                <td>@pet.Id</td>
+                <td>@pet.Name</td>
+                <td>@pet.Age</td>
+                <td>@pet.Color</td>
+                <td>
+                    <a class = "btn btn-primary" asp-action = "edit" asp-route-Id = "@pet.Id">
+                        Edit
+                    </a>
+                </td>
+                <td>
+                    <a class = "btn btn-danger delete" 
+                        data-id = "@pet.Id"
+                        data-controller = "Pet"
+                        data-action = "delete"
+                        data-body-message = "Are you sure to delete this pet?">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script>
+    var options = {
+
+        url: function(search) {
+            return "/Pet/AutocompleteResult";
+        },
+
+        getValue: function(element) {
+            return element.name;
+        },
+
+        template: {
+        type: "description",
+        fields: {
+            description: "color"
+        }
+        },
+
+        list: {
+            match: {
+                enabled: false
+            },
+            sort: {
+                enabled: true
+            }
+        },
+
+        ajaxSettings: {
+            dataType: "json",
+            method: "POST",
+            data: {
+            dataType: "json"
+            }
+        },
+
+        preparePostData: function(data) {
+            data.search = $("#search").val();
+            return data;
+        },
+
+        requestDelay: 400
+    };
+
+        $("#search").easyAutocomplete(options);
+    </script>
+}

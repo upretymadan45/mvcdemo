@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
@@ -12,6 +8,11 @@ using mvcdemo.Data;
 using mvcdemo.Models;
 using mvcdemo.Services;
 using mvcdemo.Extensions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
+using ClientNotifications.ServiceExtensions;
+using mvcdemo.Repository;
 
 namespace mvcdemo
 {
@@ -37,6 +38,10 @@ namespace mvcdemo
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
+            services.AddTransient<IPetRepository,PetRepository>();
+
+            services.AddToastNotification();
+
             services.AddMvc();
         }
 
@@ -54,6 +59,11 @@ namespace mvcdemo
             }
 
             app.UseStaticFiles();
+
+            app.UseStaticFiles(new StaticFileOptions{
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(),"node_modules")),
+                RequestPath = new PathString("/vendor")
+            });
 
             app.UseAuthentication();
 
