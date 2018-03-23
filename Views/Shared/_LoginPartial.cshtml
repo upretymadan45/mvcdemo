@@ -9,6 +9,14 @@
     <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right">
             <li>
+                <a asp-action="MyPets" asp-controller="Pet">My Pets</a>
+            </li>
+
+            <li>
+                <a asp-action="Index" asp-controller="Watchlist"><i class="fas fa-binoculars"></i> My Watchlist</a>
+            </li>
+
+            <li>
                 <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
             </li>
             <li>

@@ -1,0 +1,51 @@
+@model List<Pet>
+
+<h2>My Pets</h2>
+
+<div class="row">
+    <a class="btn btn-info pull-right" 
+            asp-action="New"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title="Add New Pet"
+            >
+            <i class="fas fa-plus"></i> Pet</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <td>Id</td>
+            <td>Name</td>
+            <td>Age</td>
+            <td>Color</td>
+            <td colspan="2">Actions</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var pet in Model){
+            <tr>
+                <td>@pet.Id</td>
+                <td><a asp-action="Details" asp-controller="Pet" asp-route-id="@pet.Id">@pet.Name</a></td>
+                <td>@pet.Age</td>
+                <td>@pet.Color</td>
+                <td>
+                    <a class = "btn btn-primary" asp-action = "edit" asp-route-Id = "@pet.Id">
+                        <i class="fas fa-edit"></i>
+                        Edit
+                    </a>
+                </td>
+                <td>
+                    <a class = "btn btn-danger delete" 
+                        data-id = "@pet.Id"
+                        data-controller = "Pet"
+                        data-action = "delete"
+                        data-body-message = "Are you sure to delete this pet?">
+                        <i class="fas fa-trash alt"></i>
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

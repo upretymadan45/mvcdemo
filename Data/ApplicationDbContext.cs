@@ -16,8 +16,24 @@ namespace mvcdemo.Data
         }
 
         public DbSet<Pet> Pets { get; set; }
+        public DbSet<Watchlist> Watchlists { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<ApplicationUser>()
+                    .HasMany(p=>p.Pets)
+                    .WithOne(u=>u.User)
+                    .IsRequired();
+
+            builder.Entity<Pet>()
+                    .HasMany(w=>w.Watchlists)
+                    .WithOne(p=>p.Pet)
+                    .IsRequired();
+
+            builder.Entity<ApplicationUser>()
+                    .HasMany(w=>w.Watchlists)
+                    .WithOne(u=>u.User)
+                    .IsRequired();
+
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.
             // For example, you can rename the ASP.NET Identity table names and more.

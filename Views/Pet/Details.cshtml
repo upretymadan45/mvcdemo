@@ -1,6 +1,25 @@
 @model Pet
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject IWatchlistRepository WatchlistRepository
 
-<h2>Pet Details</h2>
+@if(SignInManager.IsSignedIn(User) && Model.UserId != UserManager.GetUserId(User)){
+    
+    <div class="row">
+        <a class="btn btn-primary pull-right @(WatchlistRepository.CheckIfAlreadyExists(UserManager.GetUserId(User), @Model.Id)? "disabled" : "")" 
+                asp-action="New" 
+                asp-controller="Watchlist" 
+                asp-route-petId="@Model.Id"
+                data-toggle="tooltip"
+                data-placement="bottom"
+                title="Add to Watchlist"
+                >
+                <i class="fas fa-plus"></i>
+                @(WatchlistRepository.CheckIfAlreadyExists(UserManager.GetUserId(User), @Model.Id)? "Pet already exists in Watchlist" : "Watchlist")
+        </a>
+    </div>
+}
+
 <p>@Model.Id</p>
 <p>@Model.Name</p>
 <p>@Model.Age</p>

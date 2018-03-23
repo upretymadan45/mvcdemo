@@ -11,9 +11,10 @@ using System;
 namespace mvcdemo.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180309052830_RelationshipBetweenPetAndApplicationUser")]
+    partial class RelationshipBetweenPetAndApplicationUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -200,27 +201,6 @@ namespace mvcdemo.Data.Migrations
                     b.ToTable("Pets");
                 });
 
-            modelBuilder.Entity("mvcdemo.Models.Watchlist", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("CreatedDate");
-
-                    b.Property<int>("PetId");
-
-                    b.Property<string>("UserId")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PetId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Watchlists");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
@@ -270,19 +250,6 @@ namespace mvcdemo.Data.Migrations
                 {
                     b.HasOne("mvcdemo.Models.ApplicationUser", "User")
                         .WithMany("Pets")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("mvcdemo.Models.Watchlist", b =>
-                {
-                    b.HasOne("mvcdemo.Models.Pet", "Pet")
-                        .WithMany("Watchlists")
-                        .HasForeignKey("PetId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("mvcdemo.Models.ApplicationUser", "User")
-                        .WithMany("Watchlists")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

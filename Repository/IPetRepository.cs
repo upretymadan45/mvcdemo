@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using mvcdemo.Models;
 
 namespace mvcdemo.Repository{
@@ -11,5 +12,6 @@ namespace mvcdemo.Repository{
         List<Pet> GetAllPets();
         bool VerifyName(string name);
         List<Pet> SearchPets(string search);
+        List<Pet> GetPetByUserId(string userId);
     }
 }

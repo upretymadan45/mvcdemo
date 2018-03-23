@@ -40,6 +40,8 @@ namespace mvcdemo
 
             services.AddTransient<IPetRepository,PetRepository>();
 
+            services.AddTransient<IWatchlistRepository,WatchlistRepository>();
+
             services.AddToastNotification();
 
             services.AddMvc();
@@ -71,7 +73,7 @@ namespace mvcdemo
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Pet}/{action=Index}/{id?}");
             });
         }
     }

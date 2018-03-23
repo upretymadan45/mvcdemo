@@ -1,5 +1,9 @@
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using ClientNotifications;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using mvcdemo.Data;
 using mvcdemo.Models;
@@ -11,14 +15,15 @@ namespace mvcdemo.Controllers
     public class PetController : Controller
     {
         private IPetRepository _petRepository;
-
+        private UserManager<ApplicationUser> _userManger;
         private IClientNotification _clientNotification;
-
         public PetController(IClientNotification clientNotification,
-                                IPetRepository petRepository)
+                                IPetRepository petRepository,
+                                UserManager<ApplicationUser> userManager)
         {
             _petRepository = petRepository;
             _clientNotification = clientNotification;
+            _userManger = userManager;
         }
 
         public IActionResult Index(string search = null)
@@ -32,6 +37,13 @@ namespace mvcdemo.Controllers
             return View(pets);
         }
 
+        [Authorize]
+        public IActionResult MyPets(){
+            var userId = _userManger.GetUserId(HttpContext.User);
+            var pets = _petRepository.GetPetByUserId(userId);
+            return View(pets);
+        }
+
         public IActionResult Details(int id)
         {
             var pet = _petRepository.GetSinglePet(id);
@@ -39,6 +51,7 @@ namespace mvcdemo.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public IActionResult New()
         {
             ViewBag.IsEditMode = "false";
@@ -47,6 +60,7 @@ namespace mvcdemo.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult New(Pet pet, string IsEditMode)
         {
             if(!ModelState.IsValid){
@@ -55,6 +69,9 @@ namespace mvcdemo.Controllers
             }
             try
             {
+                var userId = _userManger.GetUserId(this.HttpContext.User);
+                pet.UserId = userId;
+
                 if (IsEditMode.Equals("false"))
                 {
                     _petRepository.Create(pet);
@@ -88,8 +105,17 @@ namespace mvcdemo.Controllers
         {
             try
             {
+                var loggedInUserId = _userManger.GetUserId(HttpContext.User);
+
                 ViewBag.IsEditMode = "true";
+
                 var pet = _petRepository.GetSinglePet(Id);
+
+                if(!pet.UserId.Equals(loggedInUserId))
+                {
+                    return Content("You are not authorized for this action");
+                }
+
                 return View("New", pet);
             }
             catch (Exception ex)
