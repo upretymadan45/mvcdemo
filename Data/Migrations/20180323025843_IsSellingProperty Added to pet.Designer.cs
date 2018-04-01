@@ -11,9 +11,10 @@ using System;
 namespace mvcdemo.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180323025843_IsSellingProperty Added to pet")]
+    partial class IsSellingPropertyAddedtopet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -177,33 +178,6 @@ namespace mvcdemo.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("mvcdemo.Models.Notification", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Notifications");
-                });
-
-            modelBuilder.Entity("mvcdemo.Models.NotificationApplicationUser", b =>
-                {
-                    b.Property<int>("NotificationId");
-
-                    b.Property<string>("ApplicationUserId");
-
-                    b.Property<bool>("IsRead");
-
-                    b.HasKey("NotificationId", "ApplicationUserId");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.ToTable("UserNotifications");
-                });
-
             modelBuilder.Entity("mvcdemo.Models.Pet", b =>
                 {
                     b.Property<int>("Id")
@@ -292,19 +266,6 @@ namespace mvcdemo.Data.Migrations
                     b.HasOne("mvcdemo.Models.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("mvcdemo.Models.NotificationApplicationUser", b =>
-                {
-                    b.HasOne("mvcdemo.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("NotificationApplicationUsers")
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("mvcdemo.Models.Notification", "Notification")
-                        .WithMany("NotificationApplicationUsers")
-                        .HasForeignKey("NotificationId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

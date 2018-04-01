@@ -19,6 +19,7 @@
             <td>Name</td>
             <td>Age</td>
             <td>Color</td>
+            <td>Selling Status</td>
             <td colspan="2">Actions</td>
         </tr>
     </thead>
@@ -29,6 +30,8 @@
                 <td><a asp-action="Details" asp-controller="Pet" asp-route-id="@pet.Id">@pet.Name</a></td>
                 <td>@pet.Age</td>
                 <td>@pet.Color</td>
+                <td>@(pet.IsSelling? "Selling":"Not Selling")</td>
+                
                 <td>
                     <a class = "btn btn-primary" asp-action = "edit" asp-route-Id = "@pet.Id">
                         <i class="fas fa-edit"></i>

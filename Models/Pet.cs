@@ -18,6 +18,7 @@ namespace mvcdemo.Models{
 
         [Required]
         public string Color { get; set; }
+        public bool IsSelling { get; set; } = false;
         public ApplicationUser User { get; set; }
         public string UserId { get; set; }
         public List<Watchlist> Watchlists { get; set; }

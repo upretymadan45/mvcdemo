@@ -17,6 +17,8 @@ namespace mvcdemo.Data
 
         public DbSet<Pet> Pets { get; set; }
         public DbSet<Watchlist> Watchlists { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<NotificationApplicationUser> UserNotifications { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<ApplicationUser>()
@@ -33,6 +35,9 @@ namespace mvcdemo.Data
                     .HasMany(w=>w.Watchlists)
                     .WithOne(u=>u.User)
                     .IsRequired();
+
+            builder.Entity<NotificationApplicationUser>()
+                    .HasKey(k=>new{k.NotificationId,k.ApplicationUserId});
 
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.

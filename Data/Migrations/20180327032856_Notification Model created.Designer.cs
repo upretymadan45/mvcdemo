@@ -11,9 +11,10 @@ using System;
 namespace mvcdemo.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180327032856_Notification Model created")]
+    partial class NotificationModelcreated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,11 +183,13 @@ namespace mvcdemo.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("IsRead");
+
                     b.Property<string>("Text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notification");
                 });
 
             modelBuilder.Entity("mvcdemo.Models.NotificationApplicationUser", b =>
@@ -195,13 +198,11 @@ namespace mvcdemo.Data.Migrations
 
                     b.Property<string>("ApplicationUserId");
 
-                    b.Property<bool>("IsRead");
-
                     b.HasKey("NotificationId", "ApplicationUserId");
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("UserNotifications");
+                    b.ToTable("NotificationApplicationUser");
                 });
 
             modelBuilder.Entity("mvcdemo.Models.Pet", b =>

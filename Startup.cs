@@ -13,6 +13,7 @@ using Microsoft.Extensions.FileProviders;
 using System.IO;
 using ClientNotifications.ServiceExtensions;
 using mvcdemo.Repository;
+using mvcdemo.Infrastructure;
 
 namespace mvcdemo
 {
@@ -38,13 +39,21 @@ namespace mvcdemo
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
-            services.AddTransient<IPetRepository,PetRepository>();
+            services.AddTransient<IPetRepository, PetRepository>();
 
-            services.AddTransient<IWatchlistRepository,WatchlistRepository>();
+            services.AddTransient<IWatchlistRepository, WatchlistRepository>();
+
+            services.AddTransient<INotificationRepository, NotificationRepository>();
 
             services.AddToastNotification();
 
-            services.AddMvc();
+            services.AddSignalR();
+
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling =
+                    Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            }); ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,12 +71,17 @@ namespace mvcdemo
 
             app.UseStaticFiles();
 
-            app.UseStaticFiles(new StaticFileOptions{
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(),"node_modules")),
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "node_modules")),
                 RequestPath = new PathString("/vendor")
             });
 
             app.UseAuthentication();
+
+            app.UseSignalR(route=>{
+                route.MapHub<SignalServer>("signalServer");
+            });
 
             app.UseMvc(routes =>
             {

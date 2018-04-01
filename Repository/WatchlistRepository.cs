@@ -37,6 +37,11 @@ namespace mvcdemo.Repository{
             return _context.Watchlists.FirstOrDefault(w=>w.Id==Id);
         }
 
+        public List<Watchlist> GetWatchlistFromPetId(int petId)
+        {
+            return _context.Watchlists.Where(w=>w.PetId == petId).ToList();
+        }
+
         public void Remove(Watchlist watchlist)
         {
             _context.Watchlists.Remove(watchlist);

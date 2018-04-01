@@ -37,3 +37,14 @@
 .easy-autocomplete-container {
     top: 35px;
 }
+
+.notification-count{
+    top: 14px;
+    position: relative;
+    cursor: pointer;
+}
+
+.popover{
+    width: 500px;
+    cursor: pointer;
+}

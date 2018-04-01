@@ -11,9 +11,10 @@ using System;
 namespace mvcdemo.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180327050735_NotificationDbSetAdded")]
+    partial class NotificationDbSetAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -182,6 +183,8 @@ namespace mvcdemo.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("IsRead");
+
                     b.Property<string>("Text");
 
                     b.HasKey("Id");
@@ -194,8 +197,6 @@ namespace mvcdemo.Data.Migrations
                     b.Property<int>("NotificationId");
 
                     b.Property<string>("ApplicationUserId");
-
-                    b.Property<bool>("IsRead");
 
                     b.HasKey("NotificationId", "ApplicationUserId");
 

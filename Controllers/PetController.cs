@@ -17,13 +17,17 @@ namespace mvcdemo.Controllers
         private IPetRepository _petRepository;
         private UserManager<ApplicationUser> _userManger;
         private IClientNotification _clientNotification;
+        private INotificationRepository _notificationRepository;
+        
         public PetController(IClientNotification clientNotification,
                                 IPetRepository petRepository,
-                                UserManager<ApplicationUser> userManager)
+                                UserManager<ApplicationUser> userManager,
+                                INotificationRepository notificationRepository)
         {
             _petRepository = petRepository;
             _clientNotification = clientNotification;
-            _userManger = userManager;
+            _userManger = userManager; 
+            _notificationRepository = notificationRepository;
         }
 
         public IActionResult Index(string search = null)
@@ -149,6 +153,36 @@ namespace mvcdemo.Controllers
 
         public IActionResult AutocompleteResult(string search){
             return Json(_petRepository.SearchPets(search));
+        }
+
+        public IActionResult ToggleSelling(int id){
+            try{
+            var pet = _petRepository.GetSinglePet(id);
+
+            pet.IsSelling = !pet.IsSelling;
+
+            _petRepository.Edit(pet);
+
+            var username = _userManger.GetUserName(HttpContext.User);
+
+            var status = "";
+
+            if(pet.IsSelling)
+                status = "Selling";
+            else 
+                status = "Not Selling";
+
+            var notification = new Notification{
+                Text = $"The {username} is {status} their pet"
+            };
+
+            _notificationRepository.Create(notification,pet.Id);
+
+            } catch(Exception ex){
+                return Content("Error occured" + ex.ToString());
+            }
+
+            return RedirectToAction(nameof(Details),new {id = id});
         }
     }
 }
